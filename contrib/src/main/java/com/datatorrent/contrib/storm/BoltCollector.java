@@ -10,17 +10,24 @@ import backtype.storm.tuple.Tuple;
 
 public class BoltCollector extends DefaultOutputPort implements IOutputCollector
 {
+  
+  private final DefaultOutputPort out;
 
+  
+  public BoltCollector(){
+    this.out=new DefaultOutputPort<>();
+  }
   @Override
-  public List<Integer> emit(String s, Collection<Tuple> collection, List<Object> list)
+  public List<Integer> emit(final String streamId, final Collection<Tuple> anchors, final List<Object> tuple)
   {
+    out.emit(tuple);
     return null;
   }
 
   @Override
   public void emitDirect(int i, String s, Collection<Tuple> collection, List<Object> list)
   {
-
+    throw new UnsupportedOperationException("Direct emit is not supported by Apex");
   }
 
   @Override
