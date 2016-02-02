@@ -1,0 +1,165 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+Apache Apex Malhar (incubating) Storm Demo
+
+
+From: 'an unknown organization'
+  - clj-stacktrace (http://github.com/mmcgrana/clj-stacktrace) clj-stacktrace:clj-stacktrace:jar:0.2.2
+
+  - clj-time  clj-time:clj-time:jar:0.4.1
+
+  - clout  clout:clout:jar:1.0.1
+
+  - Kryo (http://code.google.com/p/kryo/) com.esotericsoftware.kryo:kryo:bundle:2.21
+    License: New BSD License  (http://www.opensource.org/licenses/bsd-license.php)
+  - MinLog (http://code.google.com/p/minlog/) com.esotericsoftware.minlog:minlog:jar:1.2
+    License: New BSD License  (http://www.opensource.org/licenses/bsd-license.php)
+  - ReflectASM (http://code.google.com/p/reflectasm/) com.esotericsoftware.reflectasm:reflectasm:jar:1.07
+    License: New BSD License  (http://www.opensource.org/licenses/bsd-license.php)
+  - named-regexp (http://nexus.sonatype.org/oss-repository-hosting.html/named-regexp) com.github.tony19:named-regexp:jar:0.2.3
+    License: Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)
+  - Disruptor Framework (http://code.google.com/p/disruptor/) com.googlecode.disruptor:disruptor:jar:2.10.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - JSON.simple (http://code.google.com/p/json-simple/) com.googlecode.json-simple:json-simple:jar:1.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - carbonite  com.twitter:carbonite:jar:1.4.0
+
+  - compojure  compojure:compojure:jar:1.1.3
+
+  - hiccup  hiccup:hiccup:jar:0.3.6
+
+  - fastutil (http://fasutil.di.unimi.it/) it.unimi.dsi:fastutil:jar:6.6.4
+    License: Apache License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.html)
+  - JavaBeans Activation Framework (JAF) (http://java.sun.com/products/javabeans/jaf/index.jsp) javax.activation:activation:jar:1.1
+    License: Common Development and Distribution License (CDDL) v1.0  (https://glassfish.dev.java.net/public/CDDLv1.0.html)
+  - servlet-api  javax.servlet:servlet-api:jar:2.5
+
+  - JLine (http://nexus.sonatype.org/oss-repository-hosting.html/jline) jline:jline:jar:2.11
+    License: The BSD License  (http://www.opensource.org/licenses/bsd-license.php)
+  - clojure (http://clojure.org/) org.clojure:clojure:jar:1.5.1
+    License: Eclipse Public License 1.0  (http://opensource.org/licenses/eclipse-1.0.php)
+  - core.incubator (http://nexus.sonatype.org/oss-repository-hosting.html/pom.contrib/core.incubator) org.clojure:core.incubator:jar:0.1.0
+    License: Eclipse Public License 1.0  (http://opensource.org/licenses/eclipse-1.0.php)
+  - math.numeric-tower (http://nexus.sonatype.org/oss-repository-hosting.html/pom.contrib/math.numeric-tower) org.clojure:math.numeric-tower:jar:0.0.1
+    License: Eclipse Public License 1.0  (http://opensource.org/licenses/eclipse-1.0.php)
+  - tools.cli (http://nexus.sonatype.org/oss-repository-hosting.html/pom.contrib/tools.cli) org.clojure:tools.cli:jar:0.2.4
+    License: Eclipse Public License 1.0  (http://opensource.org/licenses/eclipse-1.0.php)
+  - tools.logging (http://nexus.sonatype.org/oss-repository-hosting.html/pom.contrib/tools.logging) org.clojure:tools.logging:jar:0.2.3
+    License: Eclipse Public License 1.0  (http://opensource.org/licenses/eclipse-1.0.php)
+  - tools.macro (http://nexus.sonatype.org/oss-repository-hosting.html/pom.contrib/tools.macro) org.clojure:tools.macro:jar:0.1.0
+    License: Eclipse Public License 1.0  (http://opensource.org/licenses/eclipse-1.0.php)
+  - Commons Compiler (http://docs.codehaus.org/display/JANINO/Home/commons-compiler) org.codehaus.janino:commons-compiler:jar:2.7.8
+    License: New BSD License  (http://dist.codehaus.org/janino/new_bsd_license.txt)
+  - JGraphT - Core (http://www.jgrapht.org/jgrapht-core) org.jgrapht:jgrapht-core:jar:0.9.0
+    License: GNU Lesser General Public License Version 2.1, February 1999  (http://jgrapht.sourceforge.net/LGPL.html)    License: Eclipse Public License (EPL) 1.0  (http://www.eclipse.org/legal/epl-v10.html)
+  - SnakeYAML (http://www.snakeyaml.org) org.yaml:snakeyaml:bundle:1.11
+    License: Apache License Version 2.0  (LICENSE.txt)
+  - ring-core  ring:ring-core:jar:1.1.5
+
+  - ring-devel (http://github.com/mmcgrana/ring) ring:ring-devel:jar:0.3.11
+
+  - ring-jetty-adapter (http://github.com/mmcgrana/ring) ring:ring-jetty-adapter:jar:0.3.11
+
+  - ring-servlet (http://github.com/mmcgrana/ring) ring:ring-servlet:jar:0.3.11
+
+
+From: 'Apache Software Foundation' (http://www.apache.org)
+  - Apache Apex Malhar (incubating) Contrib Library (http://apex.apache.org/malhar-contrib) org.apache.apex:malhar-contrib:jar:3.4.0-incubating-SNAPSHOT
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Apache Apex Malhar (incubating) Library (http://apex.apache.org/malhar-library) org.apache.apex:malhar-library:jar:3.4.0-incubating-SNAPSHOT
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - J2EE Management 1.1 (http://geronimo.apache.org/specs/geronimo-j2ee-management_1.1_spec) org.apache.geronimo.specs:geronimo-j2ee-management_1.1_spec:jar:1.0.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - JMS 1.1 (http://geronimo.apache.org/specs/geronimo-jms_1.1_spec) org.apache.geronimo.specs:geronimo-jms_1.1_spec:jar:1.1.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'com.twitter'
+  - chill-java (https://github.com/twitter/chill) com.twitter:chill-java:jar:0.3.5
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'FuseSource, Corp.' (http://fusesource.com/)
+  - hawtbuf (http://hawtbuf.fusesource.org/hawtbuf) org.fusesource.hawtbuf:hawtbuf:bundle:1.9
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'Joda.org' (http://www.joda.org)
+  - Joda time (http://joda-time.sourceforge.net) joda-time:joda-time:jar:2.0
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'Joe Walnes, Henri Tremblay, Leonardo Mesquita'
+  - Objenesis (http://objenesis.googlecode.com/svn/docs/index.html) org.objenesis:objenesis:jar:1.2
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+From: 'Mort Bay Consulting' (http://www.mortbay.com)
+  - Jetty :: Continuation (http://www.eclipse.org/jetty/jetty-continuation) org.eclipse.jetty:jetty-continuation:jar:8.1.10.v20130312
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty :: Http Utility (http://www.eclipse.org/jetty/jetty-http) org.eclipse.jetty:jetty-http:jar:8.1.10.v20130312
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty :: IO Utility (http://www.eclipse.org/jetty/jetty-io) org.eclipse.jetty:jetty-io:jar:8.1.10.v20130312
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty :: Security (http://www.eclipse.org/jetty/jetty-security) org.eclipse.jetty:jetty-security:jar:8.1.10.v20130312
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty :: Server Core (http://www.eclipse.org/jetty/jetty-server) org.eclipse.jetty:jetty-server:jar:8.1.10.v20130312
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty :: Servlet Handling (http://www.eclipse.org/jetty/jetty-servlet) org.eclipse.jetty:jetty-servlet:jar:8.1.10.v20130312
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty :: Utilities (http://www.eclipse.org/jetty/jetty-util) org.eclipse.jetty:jetty-util:jar:8.1.10.v20130312
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty :: Websocket (http://www.eclipse.org/jetty/jetty-websocket) org.eclipse.jetty:jetty-websocket:jar:8.1.10.v20130312
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty Server (http://www.eclipse.org/jetty/jetty-parent/project/modules/jetty) org.mortbay.jetty:jetty:jar:6.1.26
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+  - Jetty Utilities (http://www.eclipse.org/jetty/jetty-parent/project/jetty-util) org.mortbay.jetty:jetty-util:jar:6.1.26
+    License: Apache Software License - Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0)    License: Eclipse Public License - Version 1.0  (http://www.eclipse.org/org/documents/epl-v10.php)
+
+From: 'ObjectWeb' (http://www.objectweb.org/)
+  - ASM Core (http://asm.objectweb.org/asm/) org.ow2.asm:asm:jar:4.0
+    License: BSD  (http://asm.objectweb.org/license.html)
+
+From: 'Oracle' (http://www.oracle.com)
+  - JavaMail API (http://javamail.java.net/javax.mail) com.sun.mail:javax.mail:jar:1.5.0
+    License: CDDL/GPLv2+CE  (https://glassfish.java.net/public/CDDL+GPL_1_1.html)
+
+From: 'Oracle Corporation' (http://www.oracle.com/)
+  - jersey-client (https://jersey.java.net/jersey-client/) com.sun.jersey:jersey-client:bundle:1.9
+    License: CDDL 1.1  (http://glassfish.java.net/public/CDDL+GPL_1_1.html)    License: GPL2 w/ CPE  (http://glassfish.java.net/public/CDDL+GPL_1_1.html)
+  - jersey-core (https://jersey.java.net/jersey-core/) com.sun.jersey:jersey-core:bundle:1.9
+    License: CDDL 1.1  (http://glassfish.java.net/public/CDDL+GPL_1_1.html)    License: GPL2 w/ CPE  (http://glassfish.java.net/public/CDDL+GPL_1_1.html)
+
+From: 'QOS.ch' (http://www.qos.ch)
+  - Logback Core Module (http://logback.qos.ch) ch.qos.logback:logback-core:jar:1.0.13
+    License: Eclipse Public License - v 1.0  (http://www.eclipse.org/legal/epl-v10.html)    License: GNU Lesser General Public License  (http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
+  - SLF4J API Module (http://www.slf4j.org) org.slf4j:slf4j-api:jar:1.7.5
+    License: MIT License  (http://www.opensource.org/licenses/mit-license.php)
+
+From: 'Sun Microsystems, Inc.' (http://www.sun.com)
+  - Java EE JMS API (http://jcp.org/en/jsr/detail?id=914) javax.jms:jms-api:jar:1.1-rev-1
+    License: CDDL + GPLv2 with classpath exception  (https://glassfish.dev.java.net/nonav/public/CDDL+GPL.html)
+
+From: 'The Apache Software Foundation' (http://www.apache.org/)
+  - Commons BeanUtils (http://commons.apache.org/beanutils/) commons-beanutils:commons-beanutils:jar:1.8.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Codec (http://commons.apache.org/codec/) commons-codec:commons-codec:jar:1.6
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons FileUpload (http://commons.apache.org/fileupload/) commons-fileupload:commons-fileupload:jar:1.2.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons IO (http://commons.apache.org/io/) commons-io:commons-io:jar:2.4
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Lang (http://commons.apache.org/lang/) commons-lang:commons-lang:jar:2.5
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Logging (http://commons.apache.org/proper/commons-logging/) commons-logging:commons-logging:jar:1.1.3
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - ActiveMQ :: Client (http://activemq.apache.org/activemq-client) org.apache.activemq:activemq-client:jar:5.8.0
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Exec (http://commons.apache.org/exec/) org.apache.commons:commons-exec:jar:1.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Commons Lang (http://commons.apache.org/lang/) org.apache.commons:commons-lang3:jar:3.1
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+  - Storm Core (http://storm.apache.org/storm-core) org.apache.storm:storm-core:jar:0.9.4
+    License: The Apache Software License, Version 2.0  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+
+

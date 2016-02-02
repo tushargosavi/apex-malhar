@@ -8,15 +8,20 @@ import com.datatorrent.api.DefaultOutputPort;
 import backtype.storm.task.IOutputCollector;
 import backtype.storm.tuple.Tuple;
 
-public class BoltCollector extends DefaultOutputPort implements IOutputCollector
+public class BoltCollector implements IOutputCollector
 {
-  
-  private final DefaultOutputPort out;
+  public transient final DefaultOutputPort out;
 
-  
-  public BoltCollector(){
-    this.out=new DefaultOutputPort<>();
+  public BoltCollector()
+  {
+    this.out = new DefaultOutputPort<>();
   }
+
+  public BoltCollector(DefaultOutputPort out)
+  {
+    this.out = out;
+  }
+
   @Override
   public List<Integer> emit(final String streamId, final Collection<Tuple> anchors, final List<Object> tuple)
   {

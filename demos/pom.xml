@@ -184,7 +184,7 @@
     <module>uniquecount</module>
     <module>r</module>
     <module>echoserver</module>
-    <module>stormdemo</module>
+    <module>storm-demo</module>
   </modules>
 
   <dependencies>
