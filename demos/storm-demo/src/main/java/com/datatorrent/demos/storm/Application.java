@@ -32,8 +32,7 @@ public class Application implements StreamingApplication
   @Override
   public void populateDAG(DAG dag, Configuration conf)
   {
- 
-    
+
     SpoutWrapper input = new SpoutWrapper();
     input.setName("sentence");
     input.setSpout(new WordSpout());
@@ -41,16 +40,22 @@ public class Application implements StreamingApplication
     BoltWrapper tokens = new BoltWrapper();
     tokens.setName("tokens");
     tokens.setBolt(new BoltTokenizer());
-    
+
+    BoltWrapper counter = new BoltWrapper();
+    counter.setName("counter");
+    counter.setBolt(new BoltCounter());
+
     BoltWrapper sink = new BoltWrapper();
     sink.setName("output");
     sink.setBolt(new BoltPrintSink(new TupleOutputFormatter()));
-    
+
     dag.addOperator("input", input);
-   dag.addOperator("tokenizer", tokens);
+    dag.addOperator("tokenizer", tokens);
+    dag.addOperator("counter", counter);
     dag.addOperator("sink", sink);
     dag.addStream("input", input.output, tokens.input);
-   dag.addStream("output", tokens.output, sink.input);
+    dag.addStream("word-count", tokens.output, counter.input);
+    dag.addStream("output", counter.output, sink.input);
 
   }
 

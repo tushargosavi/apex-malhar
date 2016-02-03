@@ -89,51 +89,43 @@ public class StormTuple implements backtype.storm.tuple.Tuple
   }
 
   @Override
-  public Integer getInteger(int i)
-  {
-    return null;
+  public Integer getInteger(final int i) {
+    return (Integer) this.stormTuple.get(i);
   }
 
   @Override
-  public Long getLong(int i)
-  {
-    return null;
+  public Long getLong(final int i) {
+    return (Long) this.stormTuple.get(i);
   }
 
   @Override
-  public Boolean getBoolean(int i)
-  {
-    return null;
+  public Boolean getBoolean(final int i) {
+    return (Boolean) this.stormTuple.get(i);
   }
 
   @Override
-  public Short getShort(int i)
-  {
-    return null;
+  public Short getShort(final int i) {
+    return (Short) this.stormTuple.get(i);
   }
 
   @Override
-  public Byte getByte(int i)
-  {
-    return null;
+  public Byte getByte(final int i) {
+    return (Byte) this.stormTuple.get(i);
   }
 
   @Override
-  public Double getDouble(int i)
-  {
-    return null;
+  public Double getDouble(final int i) {
+    return (Double) this.stormTuple.get(i);
   }
 
   @Override
-  public Float getFloat(int i)
-  {
-    return null;
+  public Float getFloat(final int i) {
+    return (Float) this.stormTuple.get(i);
   }
 
   @Override
-  public byte[] getBinary(int i)
-  {
-    return new byte[0];
+  public byte[] getBinary(final int i) {
+    return (byte[]) this.stormTuple.get(i);
   }
 
   @Override

@@ -17,7 +17,12 @@
 
 package com.datatorrent.demos.storm;
 
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import backtype.storm.task.OutputCollector;
 import backtype.storm.task.TopologyContext;
@@ -28,21 +33,19 @@ import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
 /**
- * Implements the string tokenizer that splits sentences into words as a bolt. The bolt takes a line (input tuple
- * schema: {@code <String>}) and splits it into multiple pairs in the form of "(word,1)" (output tuple schema:
- * {@code <String,Integer>}).
+ * Implements the word counter that counts the occurrence of each unique word. The bolt takes a pair (input tuple
+ * schema: {@code <String,Integer>}) and sums the given word count for each unique word (output tuple schema:
+ * {@code <String,Integer>} ).
  * <p>
- * Same as {@link BoltTokenizerByName}, but accesses input attribute by index (instead of name).
+ * Same as {@link BoltCounterByName}, but accesses input attribute by index (instead of name).
  */
-public final class BoltTokenizer implements IRichBolt {
-	private static final long serialVersionUID = -8589620297208175149L;
+public class BoltCounter implements IRichBolt {
+	private static final long serialVersionUID = 399619605462625934L;
 
 	public static final String ATTRIBUTE_WORD = "word";
 	public static final String ATTRIBUTE_COUNT = "count";
 
-	public static final int ATTRIBUTE_WORD_INDEX = 0;
-	public static final int ATTRIBUTE_COUNT_INDEX = 1;
-
+	private final HashMap<String, Count> counts = new HashMap<String, Count>();
 	private OutputCollector collector;
 
 	@SuppressWarnings("rawtypes")
@@ -53,14 +56,20 @@ public final class BoltTokenizer implements IRichBolt {
 
 	@Override
 	public void execute(final Tuple input) {
-	  System.out.println("before bolt emit");
-		final String[] tokens = input.getString(0).toLowerCase().split("\\W+");
+		final String word = input.getString(BoltTokenizer.ATTRIBUTE_WORD_INDEX);
 
-		for (final String token : tokens) {
-			if (token.length() > 0) {
-				this.collector.emit(new Values(token, 1));
-			}
+		LOG.debug("word " + word);
+		Count currentCount = this.counts.get(word);
+		
+		if (currentCount == null) {
+			currentCount = new Count();
+			this.counts.put(word, currentCount);
 		}
+		LOG.debug("currentCount " + currentCount.count);
+		LOG.debug("input.getInteger " + input.getInteger(BoltTokenizer.ATTRIBUTE_COUNT_INDEX));
+		currentCount.count += input.getInteger(BoltTokenizer.ATTRIBUTE_COUNT_INDEX);
+
+		this.collector.emit(new Values(word, currentCount.count));
 	}
 
 	@Override
@@ -75,5 +84,17 @@ public final class BoltTokenizer implements IRichBolt {
 	public Map<String, Object> getComponentConfiguration() {
 		return null;
 	}
+
+	/**
+	 * A counter helper to emit immutable tuples to the given stormCollector and avoid unnecessary object
+	 * creating/deletion.
+	 */
+	private static final class Count implements Serializable {
+		public int count;
+
+		public Count() {/* nothing to do */}
+	}
+	
+	private static final Logger LOG = LoggerFactory.getLogger(BoltCounter.class);
 
 }
