@@ -31,6 +31,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.classification.InterfaceStability;
 
 import com.datatorrent.api.Context.OperatorContext;
+import com.datatorrent.api.DefaultInputPort;
+import com.datatorrent.api.annotation.InputPortFieldAnnotation;
 import com.datatorrent.netlet.util.DTThrowable;
 
 /**
@@ -50,6 +52,18 @@ public class JsonParser extends Parser<String, String>
   private transient ObjectReader reader;
   protected String dateFormat;
 
+  @InputPortFieldAnnotation(optional = true)
+  public transient DefaultInputPort<byte[]> bytes = new DefaultInputPort<byte[]>()
+  {
+    @Override
+    public void process(byte[] bytes)
+    {
+      String str = new String(bytes);
+      processTuple(str);
+    }
+  };
+  private String outputClass;
+
   @Override
   public void setup(OperatorContext context)
   {
@@ -59,6 +73,7 @@ public class JsonParser extends Parser<String, String>
       if (dateFormat != null) {
         mapper.setDateFormat(new SimpleDateFormat(dateFormat));
       }
+      clazz = Class.forName(outputClass);
       reader = mapper.reader(clazz);
     } catch (Throwable e) {
       throw new RuntimeException("Unable find provided class");
@@ -69,6 +84,7 @@ public class JsonParser extends Parser<String, String>
   public Object convert(String tuple)
   {
     try {
+      System.out.println("value of tuple is " + tuple);
       if (!StringUtils.isEmpty(tuple)) {
         return reader.readValue(tuple);
       }
@@ -105,6 +121,13 @@ public class JsonParser extends Parser<String, String>
   {
     this.dateFormat = dateFormat;
   }
+
+  public void setOutputClass(String name) throws ClassNotFoundException
+  {
+    outputClass = name;
+  }
+
+  public String getOutputClass() { return outputClass; }
 
   private static final Logger logger = LoggerFactory.getLogger(JsonParser.class);
 }

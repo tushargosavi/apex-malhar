@@ -1338,11 +1338,12 @@ public class GPOUtils
   {
     @SuppressWarnings("unchecked")
     T[] getters = (T[])Array.newInstance(getterMethodClazz, fields.size());
-
+    System.out.println("fields " + fields + " expressions " + valueToExpression);
     for(int getterIndex = 0;
         getterIndex < fields.size();
         getterIndex++) {
       String field = fields.get(getterIndex);
+      System.out.println("building getter for " + field);
       getters[getterIndex] = (T) PojoUtils.constructGetter(clazz, valueToExpression.get(field), getterClazz);
     }
 
@@ -1417,6 +1418,7 @@ public class GPOUtils
                                            FieldsDescriptor fieldsDescriptor,
                                            Class<?> clazz)
   {
+    System.out.println("fieldToGetter map " + fieldToGetter);
     GPOGetters gpoGetters = new GPOGetters();
     Map<Type, List<String>> typeToFields = fieldsDescriptor.getTypeToFields();
 
@@ -1424,6 +1426,7 @@ public class GPOUtils
       Type inputType = entry.getKey();
       GPOType gpoType = GPOType.GPO_TYPE_ARRAY[inputType.ordinal()];
       List<String> fields = entry.getValue();
+      System.out.println("Building getters for " + entry.getKey() + " value " + entry.getValue());
       gpoType.buildGPOGetters(gpoGetters, fields, fieldToGetter, clazz);
     }
 

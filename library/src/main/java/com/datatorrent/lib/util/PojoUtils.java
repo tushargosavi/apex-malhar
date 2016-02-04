@@ -572,6 +572,8 @@ public class PojoUtils
   @SuppressWarnings("StringEquality")
   private static Object createGetter(Class<?> pojoClass, String getterExpr, String exprObjectPlaceholder, Class<?> exprClass, Class<?> getterClass)
   {
+    logger.info("{} {} {} {}", pojoClass, getterExpr, exprClass, getterClass);
+
     if (getterExpr.startsWith(".")) {
       getterExpr = getterExpr.substring(1);
     }

@@ -25,6 +25,7 @@ import com.datatorrent.api.Context;
 import com.datatorrent.api.Context.PortContext;
 import com.datatorrent.api.DefaultInputPort;
 import com.datatorrent.api.DefaultOutputPort;
+import com.datatorrent.api.annotation.InputPortFieldAnnotation;
 import com.datatorrent.api.annotation.OutputPortFieldAnnotation;
 import com.datatorrent.common.util.BaseOperator;
 import com.datatorrent.lib.converter.Converter;
@@ -67,6 +68,7 @@ public abstract class Parser<INPUT, ERROROUT> extends BaseOperator implements Co
   };
 
   public transient DefaultOutputPort<ERROROUT> err = new DefaultOutputPort<ERROROUT>();
+  @InputPortFieldAnnotation(optional = true)
   public transient DefaultInputPort<INPUT> in = new DefaultInputPort<INPUT>()
   {
     @Override
@@ -85,7 +87,7 @@ public abstract class Parser<INPUT, ERROROUT> extends BaseOperator implements Co
       err.emit(processErrorTuple(inputTuple));
       return;
     }
-    if (out.isConnected()) {
+    if (tuple != null && out.isConnected()) {
       emittedObjectCount++;
       out.emit(tuple);
     }
