@@ -20,11 +20,13 @@ package com.datatorrent.demos.storm;
 
 import org.apache.hadoop.conf.Configuration;
 
+import com.datatorrent.api.Context.PortContext;
 import com.datatorrent.api.DAG;
 import com.datatorrent.api.StreamingApplication;
 import com.datatorrent.api.annotation.ApplicationAnnotation;
 import com.datatorrent.contrib.storm.BoltWrapper;
 import com.datatorrent.contrib.storm.SpoutWrapper;
+import com.datatorrent.lib.util.BaseKeyValueOperator.DefaultPartitionCodec;
 
 @ApplicationAnnotation(name = "storm-demo")
 public class Application implements StreamingApplication
@@ -53,9 +55,11 @@ public class Application implements StreamingApplication
     dag.addOperator("tokenizer", tokens);
     dag.addOperator("counter", counter);
     dag.addOperator("sink", sink);
+    
     dag.addStream("input", input.output, tokens.input);
     dag.addStream("word-count", tokens.output, counter.input);
     dag.addStream("output", counter.output, sink.input);
+    
 
   }
 

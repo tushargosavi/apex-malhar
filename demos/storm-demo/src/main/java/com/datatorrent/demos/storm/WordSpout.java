@@ -17,7 +17,7 @@ public class WordSpout extends BaseRichSpout
    */
   private static final long serialVersionUID = 1L;
 
-  public static final String[] WORDS = new String[] { "To be, or not to be,--that is the question:--",
+ /* public static final String[] WORDS = new String[] { "To be, or not to be,--that is the question:--",
       "Whether 'tis nobler in the mind to suffer", "The slings and arrows of outrageous fortune",
       "Or to take arms against a sea of troubles,", "And by opposing end them?--To die,--to sleep,--",
       "No more; and by a sleep to say we end", "The heartache, and the thousand natural shocks",
@@ -34,7 +34,9 @@ public class WordSpout extends BaseRichSpout
       "Thus conscience does make cowards of us all;", "And thus the native hue of resolution",
       "Is sicklied o'er with the pale cast of thought;", "And enterprises of great pith and moment,",
       "With this regard, their currents turn awry,", "And lose the name of action.--Soft you now!",
-      "The fair Ophelia!--Nymph, in thy orisons", "Be all my sins remember'd." };
+      "The fair Ophelia!--Nymph, in thy orisons", "Be all my sins remember'd." };*/
+  
+  public static final String[] WORDS = new String[] { "To be or not to be" };
 
   private SpoutOutputCollector collector;
   private int counter = 0;
