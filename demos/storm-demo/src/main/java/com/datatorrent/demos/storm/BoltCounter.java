@@ -33,68 +33,80 @@ import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
 
 /**
- * Implements the word counter that counts the occurrence of each unique word. The bolt takes a pair (input tuple
- * schema: {@code <String,Integer>}) and sums the given word count for each unique word (output tuple schema:
+ * Implements the word counter that counts the occurrence of each unique word.
+ * The bolt takes a pair (input tuple schema: {@code <String,Integer>}) and sums
+ * the given word count for each unique word (output tuple schema:
  * {@code <String,Integer>} ).
  * <p>
- * Same as {@link BoltCounterByName}, but accesses input attribute by index (instead of name).
+ * Same as {@link BoltCounterByName}, but accesses input attribute by index
+ * (instead of name).
  */
-public class BoltCounter implements IRichBolt {
-	private static final long serialVersionUID = 399619605462625934L;
+public class BoltCounter implements IRichBolt
+{
+  private static final long serialVersionUID = 399619605462625934L;
 
-	public static final String ATTRIBUTE_WORD = "word";
-	public static final String ATTRIBUTE_COUNT = "count";
+  public static final String ATTRIBUTE_WORD = "word";
+  public static final String ATTRIBUTE_COUNT = "count";
 
-	private final HashMap<String, Count> counts = new HashMap<String, Count>();
-	private OutputCollector collector;
+  private final HashMap<String, Count> counts = new HashMap<String, Count>();
+  private OutputCollector collector;
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void prepare(final Map stormConf, final TopologyContext context, final OutputCollector collector) {
-		this.collector = collector;
-	}
+  @SuppressWarnings("rawtypes")
+  @Override
+  public void prepare(final Map stormConf, final TopologyContext context, final OutputCollector collector)
+  {
+    this.collector = collector;
+  }
 
-	@Override
-	public void execute(final Tuple input) {
-		final String word = input.getString(BoltTokenizer.ATTRIBUTE_WORD_INDEX);
+  @Override
+  public void execute(final Tuple input)
+  {
+    final String word = input.getString(BoltTokenizer.ATTRIBUTE_WORD_INDEX);
 
-		LOG.debug("word " + word);
-		Count currentCount = this.counts.get(word);
-		
-		if (currentCount == null) {
-			currentCount = new Count();
-			this.counts.put(word, currentCount);
-		}
-		LOG.debug("currentCount " + currentCount.count);
-		LOG.debug("input.getInteger " + input.getInteger(BoltTokenizer.ATTRIBUTE_COUNT_INDEX));
-		currentCount.count += input.getInteger(BoltTokenizer.ATTRIBUTE_COUNT_INDEX);
+    LOG.debug("word " + word);
+    Count currentCount = this.counts.get(word);
 
-		this.collector.emit(new Values(word, currentCount.count));
-	}
+    if (currentCount == null) {
+      currentCount = new Count();
+      this.counts.put(word, currentCount);
+    }
+    LOG.debug("currentCount " + currentCount.count);
+    LOG.debug("input.getInteger " + input.getInteger(BoltTokenizer.ATTRIBUTE_COUNT_INDEX));
+    currentCount.count += input.getInteger(BoltTokenizer.ATTRIBUTE_COUNT_INDEX);
 
-	@Override
-	public void cleanup() {/* nothing to do */}
+    this.collector.emit(new Values(word, currentCount.count));
+  }
 
-	@Override
-	public void declareOutputFields(final OutputFieldsDeclarer declarer) {
-		declarer.declare(new Fields(ATTRIBUTE_WORD, ATTRIBUTE_COUNT));
-	}
+  @Override
+  public void cleanup()
+  {/* nothing to do */
+  }
 
-	@Override
-	public Map<String, Object> getComponentConfiguration() {
-		return null;
-	}
+  @Override
+  public void declareOutputFields(final OutputFieldsDeclarer declarer)
+  {
+    declarer.declare(new Fields(ATTRIBUTE_WORD, ATTRIBUTE_COUNT));
+  }
 
-	/**
-	 * A counter helper to emit immutable tuples to the given stormCollector and avoid unnecessary object
-	 * creating/deletion.
-	 */
-	private static final class Count implements Serializable {
-		public int count;
+  @Override
+  public Map<String, Object> getComponentConfiguration()
+  {
+    return null;
+  }
 
-		public Count() {/* nothing to do */}
-	}
-	
-	private static final Logger LOG = LoggerFactory.getLogger(BoltCounter.class);
+  /**
+   * A counter helper to emit immutable tuples to the given stormCollector and
+   * avoid unnecessary object creating/deletion.
+   */
+  private static final class Count implements Serializable
+  {
+    public int count;
+
+    public Count()
+    {/* nothing to do */
+    }
+  }
+
+  private static final Logger LOG = LoggerFactory.getLogger(BoltCounter.class);
 
 }

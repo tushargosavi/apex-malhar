@@ -89,43 +89,51 @@ public class StormTuple implements backtype.storm.tuple.Tuple
   }
 
   @Override
-  public Integer getInteger(final int i) {
-    return (Integer) this.stormTuple.get(i);
+  public Integer getInteger(final int i)
+  {
+    return (Integer)this.stormTuple.get(i);
   }
 
   @Override
-  public Long getLong(final int i) {
-    return (Long) this.stormTuple.get(i);
+  public Long getLong(final int i)
+  {
+    return (Long)this.stormTuple.get(i);
   }
 
   @Override
-  public Boolean getBoolean(final int i) {
-    return (Boolean) this.stormTuple.get(i);
+  public Boolean getBoolean(final int i)
+  {
+    return (Boolean)this.stormTuple.get(i);
   }
 
   @Override
-  public Short getShort(final int i) {
-    return (Short) this.stormTuple.get(i);
+  public Short getShort(final int i)
+  {
+    return (Short)this.stormTuple.get(i);
   }
 
   @Override
-  public Byte getByte(final int i) {
-    return (Byte) this.stormTuple.get(i);
+  public Byte getByte(final int i)
+  {
+    return (Byte)this.stormTuple.get(i);
   }
 
   @Override
-  public Double getDouble(final int i) {
-    return (Double) this.stormTuple.get(i);
+  public Double getDouble(final int i)
+  {
+    return (Double)this.stormTuple.get(i);
   }
 
   @Override
-  public Float getFloat(final int i) {
-    return (Float) this.stormTuple.get(i);
+  public Float getFloat(final int i)
+  {
+    return (Float)this.stormTuple.get(i);
   }
 
   @Override
-  public byte[] getBinary(final int i) {
-    return (byte[]) this.stormTuple.get(i);
+  public byte[] getBinary(final int i)
+  {
+    return (byte[])this.stormTuple.get(i);
   }
 
   @Override

@@ -20,19 +20,21 @@ package com.datatorrent.demos.storm;
 
 import backtype.storm.tuple.Tuple;
 
-public class TupleOutputFormatter implements OutputFormatter {
-	private static final long serialVersionUID = -599665757723851761L;
+public class TupleOutputFormatter implements OutputFormatter
+{
+  private static final long serialVersionUID = -599665757723851761L;
 
-	@Override
-	public String format(final Tuple input) {
-		final StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("(");
-		for (final Object attribute : input.getValues()) {
-			stringBuilder.append(attribute);
-			stringBuilder.append(",");
-		}
-		stringBuilder.replace(stringBuilder.length() - 1, stringBuilder.length(), ")");
-		return stringBuilder.toString();
-	}
+  @Override
+  public String format(final Tuple input)
+  {
+    final StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("(");
+    for (final Object attribute : input.getValues()) {
+      stringBuilder.append(attribute);
+      stringBuilder.append(",");
+    }
+    stringBuilder.replace(stringBuilder.length() - 1, stringBuilder.length(), ")");
+    return stringBuilder.toString();
+  }
 
 }

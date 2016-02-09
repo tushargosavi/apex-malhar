@@ -26,54 +26,63 @@ import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Tuple;
 
 /**
- * Implements a sink that write the received data so some external output. The result is formatted like
- * {@code (a1, a2, ..., an)} with {@code Object.toString()} for each attribute).
+ * Implements a sink that write the received data so some external output. The
+ * result is formatted like {@code (a1, a2, ..., an)} with
+ * {@code Object.toString()} for each attribute).
  */
-public abstract class AbstractBoltSink implements IRichBolt {
-	private static final long serialVersionUID = -1626323806848080430L;
+public abstract class AbstractBoltSink implements IRichBolt
+{
+  private static final long serialVersionUID = -1626323806848080430L;
 
-	private StringBuilder lineBuilder;
-	private String prefix = "";
-	private final OutputFormatter formatter;
+  private StringBuilder lineBuilder;
+  private String prefix = "";
+  private final OutputFormatter formatter;
 
-	/*public AbstractBoltSink() {
-	  this.formatter= null;
+  /*public AbstractBoltSink() {
+    this.formatter= null;
   }*/
-	public AbstractBoltSink(final OutputFormatter formatter) {
-		this.formatter = formatter;
-	}
+  public AbstractBoltSink(final OutputFormatter formatter)
+  {
+    this.formatter = formatter;
+  }
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public final void prepare(final Map stormConf, final TopologyContext context,
-			final OutputCollector collector) {
-		this.prepareSimple(stormConf, context);
-		/*if (context.getComponentCommon(context.getThisComponentId()).get_parallelism_hint() > 1) {
-			this.prefix = context.getThisTaskId() + "> ";
-		}*/
-	}
+  @SuppressWarnings("rawtypes")
+  @Override
+  public final void prepare(final Map stormConf, final TopologyContext context, final OutputCollector collector)
+  {
+    this.prepareSimple(stormConf, context);
+    /*if (context.getComponentCommon(context.getThisComponentId()).get_parallelism_hint() > 1) {
+   this.prefix = context.getThisTaskId() + "> ";
+    }*/
+  }
 
-	protected abstract void prepareSimple(final Map<?, ?> stormConf, final TopologyContext context);
+  protected abstract void prepareSimple(final Map<?, ?> stormConf, final TopologyContext context);
 
-	@Override
-	public final void execute(final Tuple input) {
-		this.lineBuilder = new StringBuilder();
-		this.lineBuilder.append(this.prefix);
-		this.lineBuilder.append(this.formatter.format(input));
-		this.writeExternal(this.lineBuilder.toString());
-	}
+  @Override
+  public final void execute(final Tuple input)
+  {
+    this.lineBuilder = new StringBuilder();
+    this.lineBuilder.append(this.prefix);
+    this.lineBuilder.append(this.formatter.format(input));
+    this.writeExternal(this.lineBuilder.toString());
+  }
 
-	protected abstract void writeExternal(final String line);
+  protected abstract void writeExternal(final String line);
 
-	@Override
-	public void cleanup() {/* nothing to do */}
+  @Override
+  public void cleanup()
+  {/* nothing to do */
+  }
 
-	@Override
-	public final void declareOutputFields(final OutputFieldsDeclarer declarer) {/* nothing to do */}
+  @Override
+  public final void declareOutputFields(final OutputFieldsDeclarer declarer)
+  {/* nothing to do */
+  }
 
-	@Override
-	public Map<String, Object> getComponentConfiguration() {
-		return null;
-	}
+  @Override
+  public Map<String, Object> getComponentConfiguration()
+  {
+    return null;
+  }
 
 }

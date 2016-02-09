@@ -24,25 +24,29 @@ import backtype.storm.task.TopologyContext;
 /**
  * Implements a sink that prints the received data to {@code stdout}.
  */
-public final class BoltPrintSink extends AbstractBoltSink {
-	private static final long serialVersionUID = -6650011223001009519L;
+public final class BoltPrintSink extends AbstractBoltSink
+{
+  private static final long serialVersionUID = -6650011223001009519L;
 
-	/*public BoltPrintSink() {
+  /*public BoltPrintSink() {
     super();
   }*/
-	public BoltPrintSink(OutputFormatter formatter) {
-		super(formatter);
-	}
+  public BoltPrintSink(OutputFormatter formatter)
+  {
+    super(formatter);
+  }
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void prepareSimple(final Map stormConf, final TopologyContext context) {
-		/* nothing to do */
-	}
+  @SuppressWarnings("rawtypes")
+  @Override
+  public void prepareSimple(final Map stormConf, final TopologyContext context)
+  {
+    /* nothing to do */
+  }
 
-	@Override
-	public void writeExternal(final String line) {
-		System.out.println(line);
-	}
+  @Override
+  public void writeExternal(final String line)
+  {
+    System.out.println(line);
+  }
 
 }

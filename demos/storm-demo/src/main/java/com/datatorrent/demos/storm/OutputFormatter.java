@@ -22,16 +22,18 @@ import java.io.Serializable;
 
 import backtype.storm.tuple.Tuple;
 
-public interface OutputFormatter extends Serializable {
+public interface OutputFormatter extends Serializable
+{
 
-	/**
-	 * Converts a Storm {@link Tuple} to a string. This method is used for formatting the output tuples before writing
-	 * them out to a file or to the console.
-	 * 
-	 * @param input
-	 *            The tuple to be formatted
-	 * @return The string result of the formatting
-	 */
-	public String format(Tuple input);
+  /**
+   * Converts a Storm {@link Tuple} to a string. This method is used for
+   * formatting the output tuples before writing them out to a file or to the
+   * console.
+   * 
+   * @param input
+   *          The tuple to be formatted
+   * @return The string result of the formatting
+   */
+  public String format(Tuple input);
 
 }

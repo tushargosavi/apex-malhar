@@ -16,7 +16,6 @@ import backtype.storm.generated.StormTopology;
 import backtype.storm.topology.IRichBolt;
 import backtype.storm.tuple.Values;
 
-//@DefaultSerializer(JavaSerializer.class)
 public class BoltWrapper implements Operator
 {
   @OutputPortFieldAnnotation(optional = true)
