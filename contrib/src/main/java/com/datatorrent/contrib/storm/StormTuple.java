@@ -1,5 +1,6 @@
 package com.datatorrent.contrib.storm;
 
+import java.io.Serializable;
 import java.util.List;
 
 import backtype.storm.generated.GlobalStreamId;
@@ -7,9 +8,15 @@ import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.MessageId;
 import backtype.storm.tuple.Values;
 
-public class StormTuple implements backtype.storm.tuple.Tuple
+public class StormTuple implements backtype.storm.tuple.Tuple, Serializable
 {
+  private static final long serialVersionUID = 1L;
   private final Values stormTuple;
+
+  public StormTuple()
+  {
+    this.stormTuple = null;
+  }
 
   public StormTuple(final Values tuple)
   {

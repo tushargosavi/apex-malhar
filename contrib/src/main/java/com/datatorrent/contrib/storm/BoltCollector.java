@@ -10,14 +10,14 @@ import backtype.storm.tuple.Tuple;
 
 public class BoltCollector implements IOutputCollector
 {
-  public transient final DefaultOutputPort out;
+  public final transient DefaultOutputPort<List<Object>> out;
 
   public BoltCollector()
   {
-    this.out = new DefaultOutputPort<>();
+    this.out = new DefaultOutputPort<List<Object>>();
   }
 
-  public BoltCollector(DefaultOutputPort out)
+  public BoltCollector(DefaultOutputPort<List<Object>> out)
   {
     this.out = out;
   }

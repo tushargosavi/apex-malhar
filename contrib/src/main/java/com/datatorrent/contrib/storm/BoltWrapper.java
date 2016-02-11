@@ -10,6 +10,7 @@ import com.datatorrent.api.Context;
 import com.datatorrent.api.DefaultInputPort;
 import com.datatorrent.api.DefaultOutputPort;
 import com.datatorrent.api.Operator;
+import com.datatorrent.api.StreamCodec;
 import com.datatorrent.api.annotation.OutputPortFieldAnnotation;
 
 import backtype.storm.generated.StormTopology;
@@ -25,6 +26,17 @@ public class BoltWrapper implements Operator
   private Map config = new HashMap();
   private String name;
   private StormTopology stormTopology;
+  private transient StreamCodec<Values> streamCodec;
+
+  public StreamCodec<Values> getStreamCodec()
+  {
+    return streamCodec;
+  }
+
+  public void setStreamCodec(StreamCodec<Values> streamCodec)
+  {
+    this.streamCodec = streamCodec;
+  }
 
   public BoltWrapper()
   {
@@ -45,6 +57,12 @@ public class BoltWrapper implements Operator
     public void process(Values tuple)
     {
       bolt.execute(new StormTuple(tuple));
+    }
+    
+    @Override
+    public StreamCodec<Values> getStreamCodec()
+    {
+      return new StormTupleStreamCodec(new int[]{1});
     }
 
   };

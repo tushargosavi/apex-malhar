@@ -23,7 +23,7 @@ import clojure.lang.Atom;
 
 public class Helper
 {
-  final static String TOPOLOGY_NAME = "storm.topology.name";
+  static final String TOPOLOGY_NAME = "storm.topology.name";
   private static int tid;
 
   static synchronized TopologyContext createTopologyContext(final Context.OperatorContext context,

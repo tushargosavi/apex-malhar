@@ -52,6 +52,12 @@ public class WordSpout extends BaseRichSpout
   {
     if (this.counter < WORDS.length) {
       this.collector.emit(new Values(WORDS[this.counter++]));
+      try {
+        Thread.sleep(300);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     } else {
       this.counter = 0;
     }

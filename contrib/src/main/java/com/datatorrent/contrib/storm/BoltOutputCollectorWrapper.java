@@ -8,10 +8,14 @@ import backtype.storm.task.OutputCollector;
 public class BoltOutputCollectorWrapper extends OutputCollector implements Serializable
 {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   public BoltOutputCollectorWrapper(IOutputCollector delegate)
   {
     super(delegate);
-    // TODO Auto-generated constructor stub
   }
 
   public BoltOutputCollectorWrapper()
