@@ -46,7 +46,6 @@ public class Application implements StreamingApplication
     BoltWrapper counter = new BoltWrapper();
     counter.setName("counter");
     counter.setBolt(new BoltCounter());
-    counter.setStreamCodec(new StormTupleStreamCodec(new int[] { 1 }));
 
     BoltWrapper sink = new BoltWrapper();
     sink.setName("output");
@@ -56,7 +55,7 @@ public class Application implements StreamingApplication
     dag.addOperator("tokenizer", tokens);
     dag.addOperator("counter", counter);
     dag.addOperator("sink", sink);
-    dag.setInputPortAttribute(counter.input, PortContext.STREAM_CODEC, new StormTupleStreamCodec());
+    dag.setInputPortAttribute(counter.input, PortContext.STREAM_CODEC, new StormTupleStreamCodec(new int[]{0}));
     dag.addStream("input", input.output, tokens.input);
     dag.addStream("word-count", tokens.output, counter.input);
     dag.addStream("output", counter.output, sink.input);

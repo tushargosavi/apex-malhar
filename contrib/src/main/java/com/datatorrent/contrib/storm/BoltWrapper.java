@@ -26,17 +26,6 @@ public class BoltWrapper implements Operator
   private Map config = new HashMap();
   private String name;
   private StormTopology stormTopology;
-  private transient StreamCodec<Values> streamCodec;
-
-  public StreamCodec<Values> getStreamCodec()
-  {
-    return streamCodec;
-  }
-
-  public void setStreamCodec(StreamCodec<Values> streamCodec)
-  {
-    this.streamCodec = streamCodec;
-  }
 
   public BoltWrapper()
   {
@@ -58,13 +47,6 @@ public class BoltWrapper implements Operator
     {
       bolt.execute(new StormTuple(tuple));
     }
-    
-    @Override
-    public StreamCodec<Values> getStreamCodec()
-    {
-      return new StormTupleStreamCodec(new int[]{1});
-    }
-
   };
 
   @Override
