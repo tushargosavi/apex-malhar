@@ -114,9 +114,9 @@ public class LogSchemaDetails
     Pattern compile = Pattern.compile(this.pattern);
     Matcher m = compile.matcher(log);
     int count = m.groupCount();
-    int i = 1;
     JSONObject logObject = null;
     if (m.find()) {
+      int i = 1;
       logObject  = new JSONObject();
       for(String field: this.getFieldNames()) {
         if (i > count) {

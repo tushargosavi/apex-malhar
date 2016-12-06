@@ -101,6 +101,7 @@ public class LogParser extends Parser<byte[], KeyValPair<String, String>>
   public void setup(Context.OperatorContext context)
   {
     objMapper = new ObjectMapper();
+    encoding = encoding != null ? encoding : CharEncoding.UTF_8;
     setupLog();
   }
 
@@ -108,21 +109,17 @@ public class LogParser extends Parser<byte[], KeyValPair<String, String>>
   public void processTuple(byte[] inputTuple)
   {
     if (inputTuple == null) {
-      this.admitError(null, "null tuple");
+      this.emitError(null, "null tuple");
       return;
     }
     String incomingString = "";
     try {
-      if (encoding != null) {
-        incomingString = new String(inputTuple, encoding);
-      } else {
-        incomingString = new String(inputTuple, CharEncoding.UTF_8);
+      incomingString = new String(inputTuple, encoding);
+      if (StringUtils.isBlank(incomingString)) {
+        this.emitError(incomingString, "Blank tuple");
+        return;
       }
-    if (StringUtils.isBlank(incomingString)) {
-      this.admitError(incomingString, "Blank tuple");
-      return;
-    }
-    logger.info("Input string {} ", incomingString);
+      logger.info("Input string {} ", incomingString);
       logger.info("Parsing with log format {}", this.geLogFileFormat());
       if (this.logSchemaDetails != null && clazz != null) {
         if (parsedOutput.isConnected()) {
@@ -131,7 +128,7 @@ public class LogParser extends Parser<byte[], KeyValPair<String, String>>
         }
       }
     } catch (NullPointerException | IOException | JSONException e) {
-      this.admitError(incomingString, e.getMessage());
+      this.emitError(incomingString, e.getMessage());
       logger.error("Failed to parse log tuple {}, Exception = {} ", inputTuple, e);
     }
   }
@@ -141,7 +138,7 @@ public class LogParser extends Parser<byte[], KeyValPair<String, String>>
    * @param tuple
    * @param errorMsg
    */
-  public void admitError(String tuple, String errorMsg)
+  public void emitError(String tuple, String errorMsg)
   {
     if (err.isConnected()) {
       err.emit(new KeyValPair<String, String>(tuple, errorMsg));
