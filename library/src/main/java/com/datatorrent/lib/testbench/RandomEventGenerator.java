@@ -22,10 +22,14 @@ import java.util.Random;
 
 import javax.validation.constraints.Min;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.datatorrent.api.Context.OperatorContext;
 import com.datatorrent.api.DefaultOutputPort;
 import com.datatorrent.api.InputOperator;
 import com.datatorrent.common.util.BaseOperator;
+import com.datatorrent.lib.io.ConsoleOutputOperator;
 
 /**
  * Generates synthetic load.&nbsp;Creates tuples using random numbers and keeps emitting them on the output port string_data and integer_data.
@@ -80,6 +84,7 @@ public class RandomEventGenerator extends BaseOperator implements InputOperator
   private int min_value = 0;
   private int max_value = 100;
   private final Random random = new Random();
+  private long windowId;
 
   public int getMaxvalue()
   {
@@ -141,12 +146,22 @@ public class RandomEventGenerator extends BaseOperator implements InputOperator
   }
 
   @Override
+  public void beginWindow(long windowId)
+  {
+    this.windowId = windowId;
+    super.beginWindow(windowId);
+  }
+
+  private static final Logger logger = LoggerFactory.getLogger(ConsoleOutputOperator.class);
+
+  @Override
   public void endWindow()
   {
     if (--maxCountOfWindows == 0) {
       //Thread.currentThread().interrupt();
       throw new RuntimeException(new InterruptedException("Finished generating data."));
     }
+    logger.info("endWindow called {}", windowId);
   }
 
   @Override

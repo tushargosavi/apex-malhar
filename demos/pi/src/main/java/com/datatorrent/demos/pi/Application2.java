@@ -24,7 +24,8 @@ import com.datatorrent.api.DAG;
 import com.datatorrent.api.DAG.Locality;
 import com.datatorrent.api.StreamingApplication;
 import com.datatorrent.api.annotation.ApplicationAnnotation;
-import com.datatorrent.lib.io.ConsoleOutputOperator;
+import com.datatorrent.lib.stream.DevNullCounter;
+import com.datatorrent.lib.stream.StreamMerger;
 
 /**
  * Monte Carlo PI estimation demo : <br>
@@ -73,19 +74,22 @@ import com.datatorrent.lib.io.ConsoleOutputOperator;
  *
  * @since 0.3.2
  */
-@ApplicationAnnotation(name = "PiDemo")
-public class Application implements StreamingApplication
+@ApplicationAnnotation(name = "PiDemo2")
+public class Application2 implements StreamingApplication
 {
-  private final Locality locality = null;
-
   @Override
   public void populateDAG(DAG dag, Configuration conf)
   {
-    RandomEventGenerator rand = dag.addOperator("rand", new RandomEventGenerator());
-    PiCalculateOperator calc = dag.addOperator("picalc", new PiCalculateOperator());
-    ConsoleOutputOperator console = dag.addOperator("console", new ConsoleOutputOperator());
-    dag.addStream("rand_calc", rand.integer_data, calc.input).setLocality(locality);
-    dag.addStream("rand_console",calc.output, console.input).setLocality(locality);
+    RandomEventGenerator rand1 = dag.addOperator("rand1", new RandomEventGenerator());
+    rand1.setWindowsToWait(100);
+    RandomEventGenerator rand2 = dag.addOperator("rand2", new RandomEventGenerator());
+    rand2.setWindowsToWait(100);
+    StreamMerger merge = dag.addOperator("merge", new StreamMerger());
+    DevNullCounter console = dag.addOperator("console", new DevNullCounter());
+
+    dag.addStream("s1", rand1.integer_data, merge.data1).setLocality(Locality.CONTAINER_LOCAL);
+    dag.addStream("s2",rand2.integer_data, merge.data2).setLocality(Locality.CONTAINER_LOCAL);
+    dag.addStream("s3", merge.out, console.data);
   }
 
 }

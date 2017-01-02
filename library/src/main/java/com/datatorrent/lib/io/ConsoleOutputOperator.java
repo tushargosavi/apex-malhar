@@ -71,6 +71,21 @@ public class ConsoleOutputOperator extends BaseOperator
     }
   };
   public boolean silent = false;
+  private long windowId;
+
+  @Override
+  public void beginWindow(long windowId)
+  {
+    this.windowId = windowId;
+    super.beginWindow(windowId);
+  }
+
+  @Override
+  public void endWindow()
+  {
+    super.endWindow();
+    logger.info("endWindow called {}", windowId);
+  }
 
   /**
    * @return the silent

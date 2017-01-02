@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import com.datatorrent.api.Context.OperatorContext;
 import com.datatorrent.api.DefaultInputPort;
 import com.datatorrent.api.DefaultOutputPort;
-import com.datatorrent.common.util.BaseOperator;
 
 /**
  * This operator implements Monte Carlo estimation of pi. For points randomly distributed points on
@@ -32,7 +31,7 @@ import com.datatorrent.common.util.BaseOperator;
  *
  * @since 0.3.2
  */
-public class PiCalculateOperator extends BaseOperator
+public class PiCalculateOperator extends RandomShutdownOperator
 {
   private transient int x = -1;
   private transient int y = -1;
@@ -55,25 +54,30 @@ public class PiCalculateOperator extends BaseOperator
         x = y = -1;
       }
     }
-
   };
   public final transient DefaultOutputPort<Double> output = new DefaultOutputPort<Double>();
+  private long windowId;
 
   @Override
   public void setup(OperatorContext context)
   {
     logger.info("inArea {} totalArea {}", inArea, totalArea);
+    super.setup(context);
   }
 
   @Override
   public void beginWindow(long windowId)
   {
+    logger.info("beginWindow called {}", windowId);
+    this.windowId = windowId;
   }
 
   @Override
   public void endWindow()
   {
     output.emit((double)inArea / totalArea * 4);
+    logger.info("endWindow called {}", windowId);
+    super.endWindow();
   }
 
   public void setBase(int num)
