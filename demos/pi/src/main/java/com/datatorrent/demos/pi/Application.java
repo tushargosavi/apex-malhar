@@ -82,10 +82,17 @@ public class Application implements StreamingApplication
   public void populateDAG(DAG dag, Configuration conf)
   {
     RandomEventGenerator rand = dag.addOperator("rand", new RandomEventGenerator());
+    rand.setWindowsToWait(10000);
+    //dag.setAttribute(rand, Context.OperatorContext.PARTITIONER, new StatelessPartitioner<Operator>(2));
     PiCalculateOperator calc = dag.addOperator("picalc", new PiCalculateOperator());
+    calc.setWindowsToWait(10000);
+
+    //dag.setInputPortAttribute(calc.input, Context.PortContext.PARTITION_PARALLEL, true);
+    //dag.setAttribute(rand, Context.OperatorContext.PARTITIONER, new StatelessPartitioner<Operator>(2));
+
     ConsoleOutputOperator console = dag.addOperator("console", new ConsoleOutputOperator());
-    dag.addStream("rand_calc", rand.integer_data, calc.input).setLocality(locality);
-    dag.addStream("rand_console",calc.output, console.input).setLocality(locality);
+    dag.addStream("rand_calc", rand.integer_data, calc.input).setLocality(Locality.THREAD_LOCAL);
+    dag.addStream("rand_console",calc.output, console.input);
   }
 
 }
