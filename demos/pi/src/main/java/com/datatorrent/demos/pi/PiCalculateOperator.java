@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import com.datatorrent.api.Context.OperatorContext;
 import com.datatorrent.api.DefaultInputPort;
 import com.datatorrent.api.DefaultOutputPort;
+import com.datatorrent.api.Operator;
 import com.datatorrent.common.util.BaseOperator;
 
 /**
@@ -32,7 +33,7 @@ import com.datatorrent.common.util.BaseOperator;
  *
  * @since 0.3.2
  */
-public class PiCalculateOperator extends BaseOperator
+public class PiCalculateOperator extends BaseOperator implements Operator.CheckpointNotificationListener
 {
   private transient int x = -1;
   private transient int y = -1;
@@ -58,6 +59,7 @@ public class PiCalculateOperator extends BaseOperator
 
   };
   public final transient DefaultOutputPort<Double> output = new DefaultOutputPort<Double>();
+  private long wid;
 
   @Override
   public void setup(OperatorContext context)
@@ -68,11 +70,13 @@ public class PiCalculateOperator extends BaseOperator
   @Override
   public void beginWindow(long windowId)
   {
+    this.wid = windowId;
   }
 
   @Override
   public void endWindow()
   {
+    logger.info("Calling endWindow at window {}", wid);
     output.emit((double)inArea / totalArea * 4);
   }
 
@@ -84,6 +88,24 @@ public class PiCalculateOperator extends BaseOperator
   public int getBase()
   {
     return base;
+  }
+
+  @Override
+  public void beforeCheckpoint(long l)
+  {
+
+  }
+
+  @Override
+  public void checkpointed(long l)
+  {
+    logger.info("checkpointed called for {}", l);
+  }
+
+  @Override
+  public void committed(long l)
+  {
+    logger.info("committed called for {}", l);
   }
 
   private static Logger logger = LoggerFactory.getLogger(PiCalculateOperator.class);

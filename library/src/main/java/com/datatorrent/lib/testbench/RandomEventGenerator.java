@@ -22,9 +22,13 @@ import java.util.Random;
 
 import javax.validation.constraints.Min;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.datatorrent.api.Context.OperatorContext;
 import com.datatorrent.api.DefaultOutputPort;
 import com.datatorrent.api.InputOperator;
+import com.datatorrent.api.Operator;
 import com.datatorrent.common.util.BaseOperator;
 
 /**
@@ -62,8 +66,10 @@ import com.datatorrent.common.util.BaseOperator;
  * @tags generate
  * @since 0.3.2
  */
-public class RandomEventGenerator extends BaseOperator implements InputOperator
+public class RandomEventGenerator extends BaseOperator implements InputOperator, Operator.CheckpointNotificationListener
 {
+  private static final Logger logger = LoggerFactory.getLogger(RandomEventGenerator.class);
+
   /**
    * The output port on which randomly generated integers are emitted as strings.
    */
@@ -140,6 +146,15 @@ public class RandomEventGenerator extends BaseOperator implements InputOperator
     maxCountOfWindows = i;
   }
 
+  private long wid;
+
+  @Override
+  public void beginWindow(long windowId)
+  {
+    wid = windowId;
+    super.beginWindow(windowId);
+  }
+
   @Override
   public void endWindow()
   {
@@ -147,6 +162,7 @@ public class RandomEventGenerator extends BaseOperator implements InputOperator
       //Thread.currentThread().interrupt();
       throw new RuntimeException(new InterruptedException("Finished generating data."));
     }
+    logger.info("calling endWindow for {}", wid);
   }
 
   @Override
@@ -177,5 +193,23 @@ public class RandomEventGenerator extends BaseOperator implements InputOperator
         //fixme
       }
     }
+  }
+
+  @Override
+  public void beforeCheckpoint(long l)
+  {
+
+  }
+
+  @Override
+  public void checkpointed(long l)
+  {
+    logger.info("checkpointed called for {}", l);
+  }
+
+  @Override
+  public void committed(long l)
+  {
+    logger.info("committed called for {}", l);
   }
 }

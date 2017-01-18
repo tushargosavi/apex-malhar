@@ -44,7 +44,7 @@ import com.datatorrent.common.util.BaseOperator;
 public class ConsoleOutputOperator extends BaseOperator
 {
   private static final Logger logger = LoggerFactory.getLogger(ConsoleOutputOperator.class);
-
+  private long wid;
   private transient PrintStream stream = isStderr() ? System.err : System.out;
 
   /**
@@ -131,5 +131,19 @@ public class ConsoleOutputOperator extends BaseOperator
   public void setStringFormat(String stringFormat)
   {
     this.stringFormat = stringFormat;
+  }
+
+  @Override
+  public void beginWindow(long windowId)
+  {
+    super.beginWindow(windowId);
+    this.wid = windowId;
+  }
+
+  @Override
+  public void endWindow()
+  {
+    super.endWindow();
+    logger.info("endWindow called for {}", wid);
   }
 }
