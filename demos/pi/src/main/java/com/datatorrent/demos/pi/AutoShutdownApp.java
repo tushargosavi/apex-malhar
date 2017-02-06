@@ -20,13 +20,10 @@ package com.datatorrent.demos.pi;
 
 import org.apache.hadoop.conf.Configuration;
 
-import com.datatorrent.api.Context;
 import com.datatorrent.api.DAG;
 import com.datatorrent.api.DAG.Locality;
-import com.datatorrent.api.Operator;
 import com.datatorrent.api.StreamingApplication;
 import com.datatorrent.api.annotation.ApplicationAnnotation;
-import com.datatorrent.common.partitioner.StatelessPartitioner;
 import com.datatorrent.lib.io.ConsoleOutputOperator;
 
 /**
@@ -76,8 +73,8 @@ import com.datatorrent.lib.io.ConsoleOutputOperator;
  *
  * @since 0.3.2
  */
-@ApplicationAnnotation(name = "PiDemo")
-public class Application implements StreamingApplication
+@ApplicationAnnotation(name = "AutoShutdownApp")
+public class AutoShutdownApp implements StreamingApplication
 {
   private final Locality locality = null;
 
@@ -85,12 +82,9 @@ public class Application implements StreamingApplication
   public void populateDAG(DAG dag, Configuration conf)
   {
     RandomEventGenerator rand = dag.addOperator("rand", new RandomEventGenerator());
+    rand.setAutoShutdown(true);
+    rand.setMaxCountOfWindows(200);
     PiCalculateOperator calc = dag.addOperator("picalc", new PiCalculateOperator());
-    dag.setAttribute(calc, Context.OperatorContext.PARTITIONER, new StatelessPartitioner<Operator>(2));
-    dag.setUnifierAttribute(calc.output, Context.OperatorContext.TIMEOUT_WINDOW_COUNT, 5000);
-    //dag.setInputPortAttribute(calc.input, Context.PortContext.PARTITION_PARALLEL, true);
-    //dag.setAttribute(rand, Context.OperatorContext.PARTITIONER, new StatelessPartitioner<Operator>(2));
-
     ConsoleOutputOperator console = dag.addOperator("console", new ConsoleOutputOperator());
     dag.addStream("rand_calc", rand.integer_data, calc.input);
     dag.addStream("rand_console",calc.output, console.input);

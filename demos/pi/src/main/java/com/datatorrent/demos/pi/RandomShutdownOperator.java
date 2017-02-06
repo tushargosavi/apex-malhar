@@ -31,6 +31,7 @@ public class RandomShutdownOperator extends BaseOperator
   private static final Logger LOG = LoggerFactory.getLogger(RandomShutdownOperator.class);
   int windowsToWait = 120;
   int windowsCompleted = 0;
+  boolean autoShutdown = false;
 
   @Override
   public void setup(Context.OperatorContext context)
@@ -45,7 +46,7 @@ public class RandomShutdownOperator extends BaseOperator
   public void endWindow()
   {
     windowsCompleted++;
-    if (windowsCompleted > windowsToWait) {
+    if (autoShutdown && (windowsCompleted > windowsToWait)) {
       windowsCompleted = 0;
       LOG.info("Total windows processed {}, shutting down operator now ", windowsCompleted);
       throw new ShutdownException();
@@ -61,5 +62,15 @@ public class RandomShutdownOperator extends BaseOperator
   public void setWindowsToWait(int windowsToWait)
   {
     this.windowsToWait = windowsToWait;
+  }
+
+  public boolean isAutoShutdown()
+  {
+    return autoShutdown;
+  }
+
+  public void setAutoShutdown(boolean autoShutdown)
+  {
+    this.autoShutdown = autoShutdown;
   }
 }

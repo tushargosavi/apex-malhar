@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import com.datatorrent.api.Context.OperatorContext;
 import com.datatorrent.api.DefaultOutputPort;
 import com.datatorrent.api.InputOperator;
-import com.datatorrent.lib.io.ConsoleOutputOperator;
 
 /**
  * Generates synthetic load.&nbsp;Creates tuples using random numbers and keeps emitting them on the output port string_data and integer_data.
@@ -150,18 +149,16 @@ public class RandomEventGenerator extends RandomShutdownOperator implements Inpu
   {
     this.windowId = windowId;
     super.beginWindow(windowId);
+    logger.info("begin window called {}", windowId);
   }
-
-  private static final Logger logger = LoggerFactory.getLogger(ConsoleOutputOperator.class);
 
   @Override
   public void endWindow()
   {
     if (--maxCountOfWindows == 0) {
-      //Thread.currentThread().interrupt();
-      throw new RuntimeException(new InterruptedException("Finished generating data."));
+      throw new ShutdownException();
     }
-    logger.info("endWindow called {}", windowId);
+    logger.info("endWindow called {} {}", maxCountOfWindows, windowId);
     super.endWindow();
   }
 
@@ -194,4 +191,6 @@ public class RandomEventGenerator extends RandomShutdownOperator implements Inpu
       }
     }
   }
+
+  private static Logger logger = LoggerFactory.getLogger(RandomEventGenerator.class);
 }
