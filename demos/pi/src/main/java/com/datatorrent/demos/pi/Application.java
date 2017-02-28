@@ -84,6 +84,7 @@ public class Application implements StreamingApplication
   {
     RandomEventGenerator rand = dag.addOperator("rand", new RandomEventGenerator());
     PiCalculateOperator calc = dag.addOperator("picalc", new PiCalculateOperator());
+    calc.setDelay(500);
     ConsoleOutputOperator console = dag.addOperator("console", new ConsoleOutputOperator());
     dag.addStream("rand_calc", rand.integer_data, calc.input).setLocality(locality);
     dag.addStream("rand_console",calc.output, console.input).setLocality(locality);

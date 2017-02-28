@@ -73,9 +73,28 @@ public class PiCalculateOperator extends BaseOperator implements Operator.Checkp
     this.wid = windowId;
   }
 
+  private long delay = 0;
+
+  public long getDelay()
+  {
+    return delay;
+  }
+
+  public void setDelay(long delay)
+  {
+    this.delay = delay;
+  }
+
   @Override
   public void endWindow()
   {
+    try {
+      if (delay != 0) {
+        Thread.sleep(delay);
+      }
+    } catch (InterruptedException e) {
+      //e.printStackTrace();
+    }
     logger.info("Calling endWindow at window {}", wid);
     output.emit((double)inArea / totalArea * 4);
   }
