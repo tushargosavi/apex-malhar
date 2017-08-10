@@ -99,11 +99,14 @@ public class JavaExpressionParser implements Expression.ExpressionParser
 
   private String getObjectJavaExpression(String exp, Class objectType)
   {
-    StringBuilder sb = new StringBuilder();
-
     String[] split = exp.split("\\.");
-    Class<?> currentClassType = objectType;
+    return getGetterExpression(objectType, split).getKey();
+  }
 
+  public KeyValPair<String, ? extends Class<?>> getGetterExpression(Class objectType, String[] split)
+  {
+    StringBuilder sb = new StringBuilder();
+    Class<?> currentClassType = objectType;
     boolean first = true;
     for (String field : split) {
       if (first) {
@@ -122,8 +125,7 @@ public class JavaExpressionParser implements Expression.ExpressionParser
         currentClassType = getter.getValue();
       }
     }
-
-    return sb.toString();
+    return new KeyValPair<>(sb.toString(), currentClassType);
   }
 
   private KeyValPair<String, ? extends Class<?>> getGetterForVariable(String var, Class<?> inputClassType)

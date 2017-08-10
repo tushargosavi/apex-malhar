@@ -21,6 +21,7 @@ package com.datatorrent.lib.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -603,25 +604,8 @@ public class PojoUtils
     return compileExpression(code, getterClass, new String[] {PojoUtils.OBJECT});
   }
 
-  private static String getSingleFieldSetterExpression(final Class<?> pojoClass, final String fieldExpression, final Class<?> exprClass)
+  private static Method getPossibleSetterMethod(final Class<?> pojoClass, final String fieldExpression, final Class<?> exprClass)
   {
-    JavaStatement code = new JavaStatement(pojoClass.getName().length() + fieldExpression.length() + exprClass.getName().length() + 32);
-    /* Construct ((<pojo class name>)pojo). */
-    code.appendCastToTypeExpr(pojoClass, OBJECT).append(".");
-    try {
-      final Field field = pojoClass.getField(fieldExpression);
-      if (ClassUtils.isAssignable(exprClass, field.getType())) {
-        /* there is public field on the class, use direct assignment. */
-        /* append <field name> = (<field type>)val; */
-        return code.append(field.getName()).append(" = ").appendCastToTypeExpr(exprClass, VAL).getStatement();
-      }
-      logger.debug("{} can not be assigned to {}. Proceeding to locate a setter method.", exprClass, field);
-    } catch (NoSuchFieldException ex) {
-      logger.debug("{} does not have field {}. Proceeding to locate a setter method.", pojoClass, fieldExpression);
-    } catch (SecurityException ex) {
-      logger.debug("{} does not have field {}. Proceeding to locate a setter method.", pojoClass, fieldExpression);
-    }
-
     final String setMethodName = SET + upperCaseWord(fieldExpression);
     Method bestMatchMethod = null;
     List<Method> candidates = new ArrayList<Method>();
@@ -639,17 +623,47 @@ public class PojoUtils
       }
     }
 
-    if (bestMatchMethod == null) { // We did not find the exact match, use candidates to find the match
-      if (candidates.size() == 0) {
-        logger.debug("{} does not have suitable setter method {}. Returning original expression {}.",
-            pojoClass, setMethodName, fieldExpression);
+    if (bestMatchMethod != null) {
+      return bestMatchMethod;
+    } else if (candidates.size() > 0) {
+      return candidates.get(0);
+    }
+    return null;
+  }
+
+  private static String getSingleFieldSetterExpression(final Class<?> pojoClass, final String getterExpr,
+      final String fieldExpression, final Class<?> exprClass)
+  {
+    JavaStatement code = new JavaStatement(pojoClass.getName().length() + ((getterExpr == null) ? 0 : getterExpr.length())
+        + fieldExpression.length() + exprClass.getName().length() + 32);
+    if (getterExpr != null) {
+      code.append(getterExpr).append(".");
+    } else {
+      code.appendCastToTypeExpr(pojoClass, OBJECT).append(".");
+    }
+    try {
+      final Field field = pojoClass.getField(fieldExpression);
+      if (ClassUtils.isAssignable(exprClass, field.getType())) {
+        /* there is public field on the class, use direct assignment. */
+        /* append <field name> = (<field type>)val; */
+        return code.append(field.getName()).append(" = ").appendCastToTypeExpr(exprClass, VAL).getStatement();
+      }
+      logger.debug("{} can not be assigned to {}. Proceeding to locate a setter method.", exprClass, field);
+    } catch (NoSuchFieldException ex) {
+      logger.debug("{} does not have field {}. Proceeding to locate a setter method.", pojoClass, fieldExpression);
+    } catch (SecurityException ex) {
+      logger.debug("{} does not have field {}. Proceeding to locate a setter method.", pojoClass, fieldExpression);
+    }
+
+    Method bestMatchMethod = getPossibleSetterMethod(pojoClass, fieldExpression, exprClass);
+
+    if (bestMatchMethod == null) {
+      final String setMethodName = SET + upperCaseWord(fieldExpression);
+      logger.debug("{} does not have suitable setter method {}. Returning original expression {}.",
+          pojoClass, setMethodName, fieldExpression);
         /* We did not find any match at all, use original expression */
         /* append = (<expr type>)val;*/
-        return code.append(fieldExpression).append(" = ").appendCastToTypeExpr(exprClass, VAL).getStatement();
-      } else {
-        // TODO: see if we can find a better match
-        bestMatchMethod = candidates.get(0);
-      }
+      return code.append(fieldExpression).append(" = ").appendCastToTypeExpr(exprClass, VAL).getStatement();
     }
 
     /* We found a method that we may use for setter */
@@ -678,7 +692,19 @@ public class PojoUtils
       code = new JavaStatement(code.length() + 1).append(code).getStatement();
       logger.debug("Original expression {} is a complex expression. Replacing it with {}.", setterExpr, code);
     } else {
-      code = getSingleFieldSetterExpression(pojoClass, setterExpr, exprClass);
+      String[] splits = setterExpr.split("\\.");
+      /* If expression is complex expression with multiple fields, then construct a getter till last field,
+         and then find suitable setter expression for last field
+       */
+      if (splits.length > 1) {
+        JavaExpressionParser javaExpressionParser = new JavaExpressionParser();
+        javaExpressionParser.setInputObjectPlaceholder("$", PojoUtils.OBJECT);
+        KeyValPair<String, ? extends Class<?>> getterExpressionAndType = javaExpressionParser.getGetterExpression(pojoClass, Arrays.copyOfRange(splits, 0, splits.length - 1));
+        code = new JavaStatement().appendCastToTypeExpr(pojoClass, PojoUtils.OBJECT).append(".").append(getterExpressionAndType.getKey()).toString();
+        code = getSingleFieldSetterExpression(getterExpressionAndType.getValue(), code, splits[splits.length - 1], exprClass);
+      } else {
+        code = getSingleFieldSetterExpression(pojoClass, null, setterExpr, exprClass);
+      }
     }
 
     return compileExpression(code, setterClass, new String[] {PojoUtils.OBJECT, PojoUtils.VAL});

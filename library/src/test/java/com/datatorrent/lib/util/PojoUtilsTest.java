@@ -257,6 +257,35 @@ public class PojoUtilsTest
     assertSame(innerObjClass, innerObj.getPrivateObjVal());
   }
 
+  public static class InnerObject
+  {
+    private int b;
+    public int c;
+
+    public InnerObject(int b)
+    {
+      this.b = b;
+    }
+
+    public int getB()
+    {
+      return b;
+    }
+
+    public void setB(int b)
+    {
+      this.b = b;
+    }
+
+    @Override
+    public String toString()
+    {
+      return "InnerObject{" +
+          "b=" + b +
+          '}';
+    }
+  }
+
   public static class TestPojo
   {
     public static final String INT_FIELD_NAME = "intField";
@@ -265,10 +294,17 @@ public class PojoUtilsTest
     public int intField;
     @SuppressWarnings("unused")
     private int privateIntField;
+    private InnerObject innerObj;
 
     public TestPojo(int intVal)
     {
+      this(intVal, 0);
+    }
+
+    public TestPojo(int intVal, int innerVal)
+    {
       intField = intVal;
+      innerObj = new InnerObject(innerVal);
     }
 
     public int getIntVal()
@@ -309,6 +345,16 @@ public class PojoUtilsTest
     public void setPrivateInt(final int intVal, final int anotherIntVal)
     {
       throw new UnsupportedOperationException("not the right method");
+    }
+
+    public InnerObject getInnerObj()
+    {
+      return innerObj;
+    }
+
+    public void setInnerObj(InnerObject innerObj)
+    {
+      this.innerObj = innerObj;
     }
   }
 
@@ -575,5 +621,26 @@ public class PojoUtilsTest
     {
       return a + " " + b;
     }
+  }
+
+  @Test
+  public void testNestedSetter()
+  {
+    TestPojo no = new TestPojo(1, 2);
+    Setter<TestPojo, Integer> setter = createSetter(TestPojo.class, "innerObj.b", Integer.class);
+    setter.set(no, 4);
+    Assert.assertEquals("The new value of b is 4", 4, no.getInnerObj().getB());
+
+    setter = createSetter(TestPojo.class, "innerObj.c", Integer.class);
+    setter.set(no, 5);
+    Assert.assertEquals("The new value of b is 5", 5, no.getInnerObj().c);
+
+    setter = createSetter(TestPojo.class, "{$}.getInnerObj().c={#}", Integer.class);
+    setter.set(no, 6);
+    Assert.assertEquals("The new value of b is 6", 6, no.getInnerObj().c);
+
+    setter = createSetter(TestPojo.class, "{$}.getInnerObj().setB({#})", Integer.class);
+    setter.set(no, 7);
+    Assert.assertEquals("The new value of b is 6", 7, no.getInnerObj().getB());
   }
 }
